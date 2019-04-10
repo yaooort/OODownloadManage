@@ -9,6 +9,11 @@
 #import "TaskBean.h"
 
 @implementation TaskBean
+- (instancetype)init{
+    if (self = [super init]) {
+    }
+    return self;
+}
 + (instancetype)shareInstace{
     return [[self alloc] init];
 }
