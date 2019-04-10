@@ -7,15 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B6A1DCAC7FF1510649455F8 /* libPods-OODownloadManage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD8A1C814226D41B0811AE6 /* libPods-OODownloadManage.a */; };
 		B03F5B0C225DBE6C00B0E461 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B03F5B0B225DBE6C00B0E461 /* AppDelegate.m */; };
 		B03F5B0F225DBE6C00B0E461 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B03F5B0E225DBE6C00B0E461 /* ViewController.m */; };
 		B03F5B12225DBE6C00B0E461 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B03F5B10225DBE6C00B0E461 /* Main.storyboard */; };
 		B03F5B14225DBE6E00B0E461 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B03F5B13225DBE6E00B0E461 /* Assets.xcassets */; };
 		B03F5B17225DBE6E00B0E461 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B03F5B15225DBE6E00B0E461 /* LaunchScreen.storyboard */; };
 		B03F5B1A225DBE6E00B0E461 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B03F5B19225DBE6E00B0E461 /* main.m */; };
+		B03F5B23225DC04000B0E461 /* OODownload.m in Sources */ = {isa = PBXBuildFile; fileRef = B03F5B22225DC04000B0E461 /* OODownload.m */; };
+		B03F5B27225DD37B00B0E461 /* TaskBean.m in Sources */ = {isa = PBXBuildFile; fileRef = B03F5B26225DD37B00B0E461 /* TaskBean.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0FD8A1C814226D41B0811AE6 /* libPods-OODownloadManage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OODownloadManage.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2597E3AF19771B5AE4FB3CB5 /* Pods-OODownloadManage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OODownloadManage.release.xcconfig"; path = "Pods/Target Support Files/Pods-OODownloadManage/Pods-OODownloadManage.release.xcconfig"; sourceTree = "<group>"; };
 		B03F5B07225DBE6C00B0E461 /* OODownloadManage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OODownloadManage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B03F5B0A225DBE6C00B0E461 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B03F5B0B225DBE6C00B0E461 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -26,6 +31,12 @@
 		B03F5B16225DBE6E00B0E461 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B03F5B18225DBE6E00B0E461 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B03F5B19225DBE6E00B0E461 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B03F5B21225DC04000B0E461 /* OODownload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OODownload.h; sourceTree = "<group>"; };
+		B03F5B22225DC04000B0E461 /* OODownload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OODownload.m; sourceTree = "<group>"; };
+		B03F5B24225DC1D900B0E461 /* Single.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Single.pch; sourceTree = "<group>"; };
+		B03F5B25225DD37B00B0E461 /* TaskBean.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskBean.h; sourceTree = "<group>"; };
+		B03F5B26225DD37B00B0E461 /* TaskBean.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskBean.m; sourceTree = "<group>"; };
+		E790FAFAF9FCE74912CE0A20 /* Pods-OODownloadManage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OODownloadManage.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OODownloadManage/Pods-OODownloadManage.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +44,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B6A1DCAC7FF1510649455F8 /* libPods-OODownloadManage.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4578E6469D32DE0B8961DAE4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0FD8A1C814226D41B0811AE6 /* libPods-OODownloadManage.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B03F5AFE225DBE6C00B0E461 = {
 			isa = PBXGroup;
 			children = (
 				B03F5B09225DBE6C00B0E461 /* OODownloadManage */,
 				B03F5B08225DBE6C00B0E461 /* Products */,
+				F4BE2A76A30CFBCF0CA2B15F /* Pods */,
+				4578E6469D32DE0B8961DAE4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +80,7 @@
 		B03F5B09225DBE6C00B0E461 /* OODownloadManage */ = {
 			isa = PBXGroup;
 			children = (
+				B03F5B20225DBFD300B0E461 /* DownloadCore */,
 				B03F5B0A225DBE6C00B0E461 /* AppDelegate.h */,
 				B03F5B0B225DBE6C00B0E461 /* AppDelegate.m */,
 				B03F5B0D225DBE6C00B0E461 /* ViewController.h */,
@@ -71,6 +94,27 @@
 			path = OODownloadManage;
 			sourceTree = "<group>";
 		};
+		B03F5B20225DBFD300B0E461 /* DownloadCore */ = {
+			isa = PBXGroup;
+			children = (
+				B03F5B21225DC04000B0E461 /* OODownload.h */,
+				B03F5B22225DC04000B0E461 /* OODownload.m */,
+				B03F5B24225DC1D900B0E461 /* Single.pch */,
+				B03F5B25225DD37B00B0E461 /* TaskBean.h */,
+				B03F5B26225DD37B00B0E461 /* TaskBean.m */,
+			);
+			path = DownloadCore;
+			sourceTree = "<group>";
+		};
+		F4BE2A76A30CFBCF0CA2B15F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E790FAFAF9FCE74912CE0A20 /* Pods-OODownloadManage.debug.xcconfig */,
+				2597E3AF19771B5AE4FB3CB5 /* Pods-OODownloadManage.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -78,6 +122,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B03F5B1D225DBE6E00B0E461 /* Build configuration list for PBXNativeTarget "OODownloadManage" */;
 			buildPhases = (
+				A6F79643EFD4A869F61035FB /* [CP] Check Pods Manifest.lock */,
 				B03F5B03225DBE6C00B0E461 /* Sources */,
 				B03F5B04225DBE6C00B0E461 /* Frameworks */,
 				B03F5B05225DBE6C00B0E461 /* Resources */,
@@ -136,12 +181,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		A6F79643EFD4A869F61035FB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OODownloadManage-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B03F5B03225DBE6C00B0E461 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				B03F5B0F225DBE6C00B0E461 /* ViewController.m in Sources */,
+				B03F5B23225DC04000B0E461 /* OODownload.m in Sources */,
+				B03F5B27225DD37B00B0E461 /* TaskBean.m in Sources */,
 				B03F5B1A225DBE6E00B0E461 /* main.m in Sources */,
 				B03F5B0C225DBE6C00B0E461 /* AppDelegate.m in Sources */,
 			);
@@ -220,7 +292,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -273,7 +345,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -283,11 +355,15 @@
 		};
 		B03F5B1E225DBE6E00B0E461 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E790FAFAF9FCE74912CE0A20 /* Pods-OODownloadManage.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7BA34AS5G8;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/OODownloadManage/DownloadCore/Single.pch";
 				INFOPLIST_FILE = OODownloadManage/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -300,11 +376,15 @@
 		};
 		B03F5B1F225DBE6E00B0E461 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2597E3AF19771B5AE4FB3CB5 /* Pods-OODownloadManage.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7BA34AS5G8;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/OODownloadManage/DownloadCore/Single.pch";
 				INFOPLIST_FILE = OODownloadManage/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

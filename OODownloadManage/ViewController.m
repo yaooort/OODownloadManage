@@ -7,7 +7,8 @@
 //
 
 #import "ViewController.h"
-
+#import "OODownload.h"
+#import "TaskBean.h"
 @interface ViewController ()
 
 @end
@@ -16,6 +17,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    TaskBean *bean = [TaskBean shareInstace];
+    NSMutableArray *as = @[].mutableCopy;
+    [as addObject:bean];
+    [[OODownload shareOODownload] createTask:@"yigerenwu" :as];
+    
+    [[OODownload shareOODownload] deleteTaskData:@"yigerenwu"];
+    
+    [[OODownload shareOODownload] stopAll:@"yigerenwu"];
+    
+    
+    [[OODownload shareOODownload] stop:@"yigerenwu" model_id:123];
+    
+    [[OODownload shareOODownload] add:@"yigerenwu" model:bean];
+    
+    [[OODownload shareOODownload] remove:@"yigerenwu" model_id:123];
+    
+    [[OODownload shareOODownload] start:@"yigerenwu" model_id:123];
+    
+    [[OODownload shareOODownload] startAll:@"yigerenwu"];
+    
     // Do any additional setup after loading the view, typically from a nib.
 }
 
