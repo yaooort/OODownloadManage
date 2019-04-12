@@ -8,8 +8,8 @@ target 'OODownloadManage' do
   # Pods for OODownloadManage
   # 网络请求
   pod 'AFNetworking', '~> 3.0'
-  # 数据库存储
-  pod 'FMDB'
   # 缓存
   pod 'YYCache'
+  # 数据库存储
+  pod 'BGFMDB', '~> 2.0.9'
 end

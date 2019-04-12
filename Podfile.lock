@@ -14,27 +14,30 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
-  - FMDB (2.7.5):
-    - FMDB/standard (= 2.7.5)
-  - FMDB/standard (2.7.5)
+  - BGFMDB (2.0.13):
+    - BGFMDB/BG (= 2.0.13)
+    - BGFMDB/FMDB (= 2.0.13)
+  - BGFMDB/BG (2.0.13):
+    - BGFMDB/FMDB
+  - BGFMDB/FMDB (2.0.13)
   - YYCache (1.0.4)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
-  - FMDB
+  - BGFMDB (~> 2.0.9)
   - YYCache
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
-    - FMDB
+    - BGFMDB
     - YYCache
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
-  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  BGFMDB: 48e6823027232402a678acc7f71484b1fc9171d0
   YYCache: 8105b6638f5e849296c71f331ff83891a4942952
 
-PODFILE CHECKSUM: e1a098662ab32a741b6d623ab7c2f1a6fa49f4ce
+PODFILE CHECKSUM: 213d55e71318d45daffdfe412f0beef0cd25ddb5
 
 COCOAPODS: 1.5.3

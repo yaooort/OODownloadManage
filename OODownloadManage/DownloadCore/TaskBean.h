@@ -7,10 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "BGFMDB.h" //添加该头文件,本类就具有了存储功能.
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TaskBean : NSObject<NSCoding>
+@interface TaskBean : NSObject
+/**
+ 本库自带的自动增长主键.
+ */
+@property(nonatomic,strong)NSNumber*_Nullable bg_id;
 //在当前队列中的ID，必须唯一
 @property(nonatomic, assign)  NSInteger task_id;
 //下载的文件url
@@ -20,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 //图片介绍展示
 @property(nonatomic, copy)    NSString *image;
 //当前下载的对象json
-@property(nonatomic, copy)    NSString *model;
+@property(nonatomic, copy)    NSDictionary *model;
 //当前下载速度
 @property(nonatomic, assign)  NSInteger speed;
 //总文件大小
@@ -29,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign)  NSInteger current;
 
 + (instancetype)shareInstace;
+
 @end
 
 NS_ASSUME_NONNULL_END

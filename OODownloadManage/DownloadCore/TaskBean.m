@@ -10,33 +10,22 @@
 
 @implementation TaskBean
 - (instancetype)init{
-    if (self = [super init]) {
+    self = [super init]; //用于初始化父类
+    if (self) {
+        
     }
     return self;
 }
 + (instancetype)shareInstace{
     return [[self alloc] init];
 }
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self.task_id = [aDecoder decodeIntegerForKey:@"task_id"];
-    self.url = [aDecoder decodeObjectForKey:@"url"];
-    self.name = [aDecoder decodeObjectForKey:@"name"];
-    self.image = [aDecoder decodeObjectForKey:@"image"];
-    self.model = [aDecoder decodeObjectForKey:@"model"];
-    self.speed = [aDecoder decodeIntegerForKey:@"speed"];
-    self.length = [aDecoder decodeIntegerForKey:@"length"];
-    self.current = [aDecoder decodeIntegerForKey:@"current"];
-    return self;
+
+/**
+ 如果需要指定“唯一约束”字段, 在模型.m文件中实现该函数,这里指定 task_id 为“唯一约束”.
+ */
++(NSArray *)bg_uniqueKeys{
+    return @[@"task_id"];
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeInteger:self.task_id forKey:@"task_id"];
-    [aCoder encodeObject:self.url forKey:@"url"];
-    [aCoder encodeObject:self.name forKey:@"name"];
-    [aCoder encodeObject:self.image forKey:@"image"];
-    [aCoder encodeObject:self.model forKey:@"model"];
-    [aCoder encodeInteger:self.speed forKey:@"speed"];
-    [aCoder encodeInteger:self.length forKey:@"length"];
-    [aCoder encodeInteger:self.current forKey:@"current"];
-}
+
 @end
