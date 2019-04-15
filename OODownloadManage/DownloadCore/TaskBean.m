@@ -7,8 +7,11 @@
 //
 
 #import "TaskBean.h"
+#define kDocumentPath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]
+#define filePath @"/DataV"
 
 @implementation TaskBean
+
 - (instancetype)init{
     self = [super init]; //用于初始化父类
     if (self) {
@@ -28,4 +31,20 @@
 }
 
 
+
+- (NSString *)absolutePath {
+    NSString *fileName = [NSString stringWithFormat:@"%ld-%@",(long)self.task_id,self.name];
+    return [[self createFileDir] stringByAppendingPathComponent:fileName];
+}
+
+- (NSString*)createFileDir {
+    //沙盒路径 kDocumentPath
+    //创建目录
+    NSString *createPath = [NSString stringWithFormat:@"%@%@", kDocumentPath,filePath];
+    // 判断文件夹是否存在，如果不存在，则创建
+    if (![[NSFileManager defaultManager] fileExistsAtPath:createPath]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:createPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return createPath;
+}
 @end

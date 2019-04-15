@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "TaskBean.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OODownload : NSObject
 
 singleH(OODownload)
+
+
+@property(nonatomic,assign) NSInteger countTask;
 
 -(void)createTask:(NSString *)name :(NSArray *)tasks;
 

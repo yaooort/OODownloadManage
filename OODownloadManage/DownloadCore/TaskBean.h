@@ -8,6 +8,26 @@
 
 #import <Foundation/Foundation.h>
 #import "BGFMDB.h" //添加该头文件,本类就具有了存储功能.
+@class TaskBean;
+//文件状态
+typedef NS_ENUM(NSInteger,YHFileDownloadStatus) {
+    //开始
+    YHFileDownloadBegin = 1,
+    //下载中
+    YHFileDownloaddownload,
+    //暂停
+    YHFileDownloadSuspend,
+    //完成
+    YHFileDownloadFinshed,
+    //等待
+    YHFileDownloadWaiting,
+    //失败
+    YHFileDownloadFailure,
+};
+//状态变化回调
+typedef void(^ObserveStatusBlock)(TaskBean * _Nullable model);
+//进度变化回调
+typedef void(^ObserveProgressBlock)(TaskBean *model);
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TaskBean : NSObject
@@ -19,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign)  NSInteger task_id;
 //下载的文件url
 @property(nonatomic, copy)    NSString *url;
+//沙盒文件的绝对d路径
+@property(nonatomic, copy)    NSString *absolutePath;
 //文件名称
 @property(nonatomic, copy)    NSString *name;
 //图片介绍展示
@@ -31,6 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign)  NSInteger length;
 //当前下载的大小
 @property(nonatomic, assign)  NSInteger current;
+//当前下载状态
+@property(nonatomic, assign)  YHFileDownloadStatus status;
 
 + (instancetype)shareInstace;
 
