@@ -24,25 +24,23 @@ typedef NS_ENUM(NSInteger,YHFileDownloadStatus) {
     //失败
     YHFileDownloadFailure,
 };
-//状态变化回调
-typedef void(^ObserveStatusBlock)(TaskBean * _Nullable model);
-//进度变化回调
-typedef void(^ObserveProgressBlock)(TaskBean *model);
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TaskBean : NSObject
 /**
  本库自带的自动增长主键.
  */
-@property(nonatomic,strong)NSNumber*_Nullable bg_id;
+@property(nonatomic,strong)   NSNumber*_Nullable bg_id;
 //在当前队列中的ID，必须唯一
-@property(nonatomic, assign)  NSInteger task_id;
+@property(nonatomic, assign)  NSInteger model_id;
 //下载的文件url
 @property(nonatomic, copy)    NSString *url;
 //沙盒文件的绝对d路径
 @property(nonatomic, copy)    NSString *absolutePath;
 //文件名称
-@property(nonatomic, copy)    NSString *name;
+@property(nonatomic, copy)    NSString *file_Name;
+//数据库表名称
+//@property(nonatomic, copy)    NSString *tableName;
 //图片介绍展示
 @property(nonatomic, copy)    NSString *image;
 //当前下载的对象json
@@ -50,9 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
 //当前下载速度
 @property(nonatomic, assign)  NSInteger speed;
 //总文件大小
-@property(nonatomic, assign)  NSInteger length;
+@property(nonatomic, assign)  NSInteger fileLength;
 //当前下载的大小
-@property(nonatomic, assign)  NSInteger current;
+@property(nonatomic, assign)  NSInteger currentLength;
 //当前下载状态
 @property(nonatomic, assign)  YHFileDownloadStatus status;
 

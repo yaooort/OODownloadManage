@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "TaskBean.h"
+#import "DownloadEngine.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OODownload : NSObject
 
 singleH(OODownload)
 
-
-@property(nonatomic,assign) NSInteger countTask;
+@property(nonatomic, strong) NSMutableDictionary<NSString *, DownloadEngine *>  * arrayTaskQueue;
 
 -(void)createTask:(NSString *)name :(NSArray *)tasks;
 

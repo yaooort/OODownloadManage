@@ -7,7 +7,7 @@
 //
 
 #import "OODownload.h"
-
+#import "OOOperation.h"
 
 @implementation OODownload
 singleM(OODownload)
@@ -46,81 +46,142 @@ singleM(OODownload)
     /**
      自定义数据库名称，否则默认为BGFMDB
      */
-    bg_setSqliteName(@"oo_download");
+    bg_setSqliteName(@"OortDownloadDB");
     
     //删除自定义数据库.
     //bg_deleteSqlite(@"Tencent");
 }
 
-#pragma mark--获取数据表名称
--(NSString *)tabName:(NSString *) tab_name{
-    return [NSString stringWithFormat:@"%@_oo_table",tab_name];
+#pragma mark -- 懒加载
+-(NSMutableDictionary<NSString *, DownloadEngine *> *)arrayTaskQueue{
+    if(!_arrayTaskQueue){
+        _arrayTaskQueue = [NSMutableDictionary new];
+    }
+    return _arrayTaskQueue;
 }
 
-
+#pragma mark -- 获取一个队列根据任务名称
+-(DownloadEngine *)getEngineWithTabName:(NSString *) tabName{
+    return [self.arrayTaskQueue objectForKey:tabName];
+}
 
 -(void)createTask:(NSString *)name :(NSArray *)tasks
 {
-    [TaskBean bg_registerChangeForTableName:[self tabName:name] identify:@"change" block:^(bg_changeState result) {
-        switch (result) {
-            case bg_insert:
-                NSLog(@"有数据插入");
-                break;
-            case bg_update:
-                NSLog(@"有数据更新");
-                break;
-            case bg_delete:
-                NSLog(@"有数据删删除");
-                break;
-            case bg_drop:
-                NSLog(@"有表删除");
-                break;
-            default:
-                break;
-        }
-    }];
+//    [TaskBean bg_registerChangeForTableName:[self tabName:name] identify:@"change" block:^(bg_changeState result) {
+//        switch (result) {
+//            case bg_insert:
+//                NSLog(@"有数据插入");
+//                break;
+//            case bg_update:
+//                NSLog(@"有数据更新");
+//                break;
+//            case bg_delete:
+//                NSLog(@"有数据删删除");
+//                break;
+//            case bg_drop:
+//                NSLog(@"有表删除");
+//                break;
+//            default:
+//                break;
+//        }
+//    }];
     /**
      存储标识名为name的数组.
      */
-    [tasks bg_saveArrayWithName:[self tabName:name]];
+//    for (int i=0; i<tasks.count; i++) {
+//        TaskBean *bean = [tasks objectAtIndex:i];
+//        [bean bg_saveOrUpdate];
+//    }
+    [tasks bg_saveArrayWithName:name];
+    NSArray* testResult = [NSArray bg_arrayWithName:name];
+    for (int i=0; i<testResult.count; i++) {
+        TaskBean *bean = [testResult objectAtIndex:i];
+        NSLog(@"%@",bean.model);
+    }
+    
+    
+    
+    // 创建下载队列
+    DownloadEngine *engine = [[DownloadEngine alloc] init];
+    engine.maxConcurrentOperationCount = 3;
+    engine.taskTable = name;
+    // 将单个执行单元放到队列中
+    for (int i=0; i<tasks.count; i++) {
+        OOOperation * oo = [[OOOperation alloc] initWithTaskBean:tasks[i]];
+        [engine addOperation:oo];
+//        [oo start];
+    }
+    [self.arrayTaskQueue setObject:engine forKey:name];
 }
 
 -(void)deleteTaskData:(NSString *)name
 {
     [self stopAll:name];
-    [TaskBean bg_drop:[self tabName:name]];
+    [TaskBean bg_drop:name];
 }
 
 -(void)stopAll:(NSString *)name
 {
-    
+    DownloadEngine *engine = [self.arrayTaskQueue objectForKey:name];
+    [engine setSuspended:YES];// 暂停
 }
 
 -(void)stop:(NSString *)name model_id:(NSInteger) model
 {
-    
+    DownloadEngine *engine = [self.arrayTaskQueue objectForKey:name];
+    NSArray * operations = engine.operations;
+    for (int i=0; i<operations.count; i++) {
+        OOOperation * oo = operations[i];
+        TaskBean *bean = oo.bean;
+        if(bean.model_id == model){
+            [oo suspendTask];
+        }
+    }
 }
 
 -(void)add:(NSString *)name model:(TaskBean *) model
 {
-    model.bg_tableName = [self tabName:name];
+    model.bg_tableName = name;
     [model bg_saveOrUpdate];
+    
+    DownloadEngine *engine = [self.arrayTaskQueue objectForKey:name];
+    OOOperation * oo = [[OOOperation alloc] initWithTaskBean:model];
+    [engine addOperation:oo];
 }
 
 -(void)remove:(NSString *)name model_id:(NSInteger) model{
     [self stop:name model_id:model];
     NSNumber * task_id = [NSNumber numberWithInteger:model];
     NSString* where = [NSString stringWithFormat:@"where %@=%@",bg_sqlKey(@"task_id"),bg_sqlValue(task_id)];
-    [TaskBean bg_delete:[self tabName:name] where:where];
+    [TaskBean bg_delete:name where:where];
+    
+    DownloadEngine *engine = [self.arrayTaskQueue objectForKey:name];
+    NSArray * operations = engine.operations;
+    for (int i=0; i<operations.count; i++) {
+        OOOperation * oo = operations[i];
+        TaskBean *bean = oo.bean;
+        if(bean.model_id == model){
+            [oo suspendTask];
+        }
+    }
 }
 
 -(void)start:(NSString *)name model_id:(NSInteger) model{
-    
+    DownloadEngine *engine = [self.arrayTaskQueue objectForKey:name];
+    NSArray * operations = engine.operations;
+    for (int i=0; i<operations.count; i++) {
+        OOOperation * oo = operations[i];
+        TaskBean *bean = oo.bean;
+        if(bean.model_id == model){
+            [oo resumeTask];
+        }
+    }
 }
 
 -(void)startAll:(NSString *)name
 {
-    
+    DownloadEngine *engine = [self.arrayTaskQueue objectForKey:name];
+    [engine setSuspended:NO];
 }
 
 //-(void)demo:(NSString*)name taskArr:(NSArray *) tasks{

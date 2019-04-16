@@ -17,6 +17,7 @@
 		B03F5B23225DC04000B0E461 /* OODownload.m in Sources */ = {isa = PBXBuildFile; fileRef = B03F5B22225DC04000B0E461 /* OODownload.m */; };
 		B03F5B27225DD37B00B0E461 /* TaskBean.m in Sources */ = {isa = PBXBuildFile; fileRef = B03F5B26225DD37B00B0E461 /* TaskBean.m */; };
 		B0E4B84222646E0500BA1503 /* DownloadEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E4B84122646E0500BA1503 /* DownloadEngine.m */; };
+		B0E4B84522656EEF00BA1503 /* OOOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E4B84422656EEF00BA1503 /* OOOperation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,8 @@
 		B03F5B26225DD37B00B0E461 /* TaskBean.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskBean.m; sourceTree = "<group>"; };
 		B0E4B84022646E0500BA1503 /* DownloadEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadEngine.h; sourceTree = "<group>"; };
 		B0E4B84122646E0500BA1503 /* DownloadEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadEngine.m; sourceTree = "<group>"; };
+		B0E4B84322656EEF00BA1503 /* OOOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOOperation.h; sourceTree = "<group>"; };
+		B0E4B84422656EEF00BA1503 /* OOOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OOOperation.m; sourceTree = "<group>"; };
 		E790FAFAF9FCE74912CE0A20 /* Pods-OODownloadManage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OODownloadManage.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OODownloadManage/Pods-OODownloadManage.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,6 +110,8 @@
 				B03F5B26225DD37B00B0E461 /* TaskBean.m */,
 				B0E4B84022646E0500BA1503 /* DownloadEngine.h */,
 				B0E4B84122646E0500BA1503 /* DownloadEngine.m */,
+				B0E4B84322656EEF00BA1503 /* OOOperation.h */,
+				B0E4B84422656EEF00BA1503 /* OOOperation.m */,
 			);
 			path = DownloadCore;
 			sourceTree = "<group>";
@@ -152,6 +157,11 @@
 				TargetAttributes = {
 					B03F5B06225DBE6C00B0E461 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -219,6 +229,7 @@
 				B03F5B0F225DBE6C00B0E461 /* ViewController.m in Sources */,
 				B03F5B23225DC04000B0E461 /* OODownload.m in Sources */,
 				B03F5B27225DD37B00B0E461 /* TaskBean.m in Sources */,
+				B0E4B84522656EEF00BA1503 /* OOOperation.m in Sources */,
 				B0E4B84222646E0500BA1503 /* DownloadEngine.m in Sources */,
 				B03F5B1A225DBE6E00B0E461 /* main.m in Sources */,
 				B03F5B0C225DBE6C00B0E461 /* AppDelegate.m in Sources */,

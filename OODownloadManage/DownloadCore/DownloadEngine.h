@@ -7,17 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AFNetworking.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DownloadEngine : NSObject
-singleH(DownloadEngine)
+@interface DownloadEngine : NSOperationQueue
 
-/** 下载任务 */
-@property (nonatomic, strong) NSURLSessionDataTask *downloadTask;
-/* AFURLSessionManager */
-@property (nonatomic, strong) AFURLSessionManager *manager;
+/** 下载任务队列名称，对应数据库的表名称 */
+@property (nonatomic, strong) NSString *taskTable;
+
+
 @end
 
 NS_ASSUME_NONNULL_END
