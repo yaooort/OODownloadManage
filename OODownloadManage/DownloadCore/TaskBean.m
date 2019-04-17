@@ -12,17 +12,6 @@
 
 @implementation TaskBean
 
-- (instancetype)init{
-    self = [super init]; //用于初始化父类
-    if (self) {
-        
-    }
-    return self;
-}
-+ (instancetype)shareInstace{
-    return [[self alloc] init];
-}
-
 /**
  如果需要指定“唯一约束”字段, 在模型.m文件中实现该函数,这里指定 task_id 为“唯一约束”.
  */
@@ -30,14 +19,49 @@
     return @[@"model_id"];
 }
 
-//-(void)tableName:(NSString *) tableName{
-//    self.bg_tableName = tableName;
-//    self.tableName = tableName;
-//}
 
-//-(NSString *)bg_tableName{
-//    return self.tableName;
-//}
+-(NSInteger)updateTimeStamp{
+    if(!_updateTimeStamp){
+        _updateTimeStamp = [[NSDate date] timeIntervalSince1970];
+    }
+    return _updateTimeStamp;
+}
+
+-(float)speed{
+    if(!_speed){
+        _speed = 0;
+    }
+    return _speed;
+}
+
+
+
+-(long)updateTimeFile{
+    if(!_updateTimeFile){
+        _updateTimeFile = 0;
+    }
+    return _updateTimeFile;
+}
+
+-(long)fileLength{
+    if(!_fileLength){
+        _fileLength = 0;
+    }
+    return _fileLength;
+}
+-(long)currentLength{
+    if(!_currentLength){
+        _currentLength = [self fileLengthForPath:[self absolutePath]];
+    }
+    return _currentLength;
+}
+
+-(NSInteger)status{
+    if(!_status){
+        _status = YHFileDownloadBegin;
+    }
+    return _status;
+}
 
 - (NSString *)absolutePath {
     NSString *fileName = [NSString stringWithFormat:@"%ld-%@",(long)self.model_id,self.file_Name];
@@ -54,4 +78,21 @@
     }
     return createPath;
 }
+
+/**
+ * 获取已下载的文件大小
+ */
+- (long)fileLengthForPath:(NSString *)path {
+    long fileLength = 0;
+    NSFileManager *fileManager = [[NSFileManager alloc] init]; // default is not thread safe
+    if ([fileManager fileExistsAtPath:path]) {
+        NSError *error = nil;
+        NSDictionary *fileDict = [fileManager attributesOfItemAtPath:path error:&error];
+        if (!error && fileDict) {
+            fileLength = [[NSNumber numberWithLongLong:[fileDict fileSize]] longValue];
+        }
+    }
+    return fileLength;
+}
+
 @end

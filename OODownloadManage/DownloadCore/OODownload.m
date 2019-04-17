@@ -32,11 +32,11 @@ singleM(OODownload)
     /**
      想测试更多功能,打开注释掉的代码即可.
      */
-    bg_setDebug(YES);//打开调试模式,打印输出调试信息.
+//    bg_setDebug(YES);//打开调试模式,打印输出调试信息.
     /**
      如果频繁操作数据库时,建议进行此设置(即在操作过程不关闭数据库).
      */
-//    bg_setDisableCloseDB(YES);
+    bg_setDisableCloseDB(YES);
     
     /**
      手动关闭数据库(如果设置了bg_setDisableCloseDB(YES)，则在切换bg_setSqliteName前，需要手动关闭数据库一下).
@@ -46,7 +46,7 @@ singleM(OODownload)
     /**
      自定义数据库名称，否则默认为BGFMDB
      */
-    bg_setSqliteName(@"OortDownloadDB");
+    bg_setSqliteName(@"OortDB");
     
     //删除自定义数据库.
     //bg_deleteSqlite(@"Tencent");
@@ -85,21 +85,7 @@ singleM(OODownload)
 //                break;
 //        }
 //    }];
-    /**
-     存储标识名为name的数组.
-     */
-//    for (int i=0; i<tasks.count; i++) {
-//        TaskBean *bean = [tasks objectAtIndex:i];
-//        [bean bg_saveOrUpdate];
-//    }
-    [tasks bg_saveArrayWithName:name];
-    NSArray* testResult = [NSArray bg_arrayWithName:name];
-    for (int i=0; i<testResult.count; i++) {
-        TaskBean *bean = [testResult objectAtIndex:i];
-        NSLog(@"%@",bean.model);
-    }
-    
-    
+    [TaskBean bg_saveOrUpdateArray:tasks];
     
     // 创建下载队列
     DownloadEngine *engine = [[DownloadEngine alloc] init];
@@ -109,7 +95,6 @@ singleM(OODownload)
     for (int i=0; i<tasks.count; i++) {
         OOOperation * oo = [[OOOperation alloc] initWithTaskBean:tasks[i]];
         [engine addOperation:oo];
-//        [oo start];
     }
     [self.arrayTaskQueue setObject:engine forKey:name];
 }

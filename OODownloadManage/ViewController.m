@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "OODownload.h"
 #import "TaskBean.h"
-#define tab_name @"task1"
+#define tab_name @"taskoort"
 @interface ViewController ()
 
 @end
@@ -21,16 +21,25 @@
     NSMutableArray *as = @[].mutableCopy;
     TaskBean *bean;
     for (int i=0; i<10; i++) {
-        bean = [TaskBean shareInstace];
+        bean = [TaskBean new];
         bean.bg_tableName = tab_name;
 //        bean.tableName = tab_name;
-        bean.file_Name = @"你是谁";
-        bean.model_id = i;
-        bean.url = @"http://dldir1.qq.com/qqfile/QQforMac/QQ_V5.4.0.dmg";
+        bean.file_Name = @"你是谁.zip";
+        [bean setModel_id:i];
+        bean.url = @"https://github.com/oldj/SwitchHosts/releases/download/v3.3.12/SwitchHosts-macOS-x64_v3.3.12.5349.zip";
         bean.model = @{@"abc":@"qwe",@"as":[NSNumber numberWithInt:i]};
         [as addObject:bean];
     }
-    
+//    TaskBean *beanq = [TaskBean new];
+//    beanq.bg_tableName = tab_name;
+//    //        bean.tableName = tab_name;
+//    beanq.file_Name = @"你是谁";
+//    [beanq setModel_id:200];
+//    beanq.url = @"http://dldir1.qq.com/qqfile/QQforMac/QQ_V5.4.0.dmg";
+////    beanq.model = @{@"abc":@"qwe",@"as":[NSNumber numberWithInt:200]};
+//    [beanq bg_saveOrUpdate];
+//    NSString* where = [NSString stringWithFormat:@"where %@=%@",bg_sqlKey(@"model_id"),bg_sqlValue([NSNumber numberWithInt:200])];
+//    NSArray* arr = [TaskBean bg_find:tab_name where:where];
     //创建一个任务队列
     [[OODownload shareOODownload] createTask:tab_name :as];
     [[OODownload shareOODownload] startAll:tab_name];

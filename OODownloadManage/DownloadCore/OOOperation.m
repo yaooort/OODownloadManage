@@ -27,28 +27,20 @@
 /** 下载任务 */
 @property (nonatomic, strong) NSURLSessionDataTask *downloadTask;
 /* AFURLSessionManager */
-@property (nonatomic, strong) AFURLSessionManager *manager;
+@property (nonatomic, strong) AFHTTPSessionManager *manager;
 
 @end
 @implementation OOOperation
 
-- (id)init {
-    if(self = [super init])
-    {
-    }
-    return self;
-}
-
--(TaskBean*) getTaskBean {
-    /**
-     按条件查询.
-    */
-    NSString* where = [NSString stringWithFormat:@"where %@ = %@",bg_sqlKey(@"model_id"),bg_sqlValue([NSNumber numberWithInteger:(self.model_id)])];
-    NSArray* arr = [TaskBean bg_find:self.table_name where:where];
-    NSArray * ts = [TaskBean bg_findAll:self.table_name];
-    
-    return arr.count>0 ? arr[0] : nil;
-}
+//-(TaskBean*) getTaskBean {
+//    /**
+//     按条件查询.
+//    */
+//    NSString* where = [NSString stringWithFormat:@"where %@=%@",bg_sqlKey(@"model_id"),bg_sqlValue([NSNumber numberWithInteger:(self.model_id)])];
+//    NSArray* arr = [TaskBean bg_find:self.table_name where:where];
+//
+//    return arr.count>0 ? arr[0] : nil;
+//}
 
 
 - (id)initWithTaskBean:(TaskBean*) bean {
@@ -67,8 +59,8 @@
     [self willChangeValueForKey:k_executing];
     _executing = NO;
     [self.downloadTask suspend];
-    self.getTaskBean.status = YHFileDownloadSuspend;
-    [self.getTaskBean bg_saveOrUpdate];
+    self.bean.status = YHFileDownloadSuspend;
+    [self.bean bg_saveOrUpdate];
     [self didChangeValueForKey:k_executing];
     
 }
@@ -78,14 +70,14 @@
     [self willChangeValueForKey:k_executing];
     _executing = YES;
     [self.downloadTask resume];
-    self.getTaskBean.status = YHFileDownloaddownload;
-    [self.getTaskBean bg_saveOrUpdate];
+    self.bean.status = YHFileDownloaddownload;
+    [self.bean bg_saveOrUpdate];
     [self didChangeValueForKey:k_executing];
 }
 
 // 重写父类方法
 - (void)start {
-    self.getTaskBean.status = YHFileDownloadBegin;
+    self.bean.status = YHFileDownloadBegin;
     if (self.isCancelled) {
         [self willChangeValueForKey:k_finished];
         _finished = YES;
@@ -94,10 +86,10 @@
         [self willChangeValueForKey:k_executing];
         _executing = YES;
         [self.downloadTask resume];
-        self.getTaskBean.status = YHFileDownloadBegin;
+        self.bean.status = YHFileDownloadBegin;
         [self didChangeValueForKey:k_executing];
     }
-    [self.getTaskBean bg_saveOrUpdate];
+    [self.bean bg_saveOrUpdate];
 }
 
 // 取消
@@ -154,11 +146,11 @@
 /**
  * manager的懒加载
  */
-- (AFURLSessionManager *)manager {
+- (AFHTTPSessionManager *)manager {
     if (!_manager) {
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         // 1. 创建会话管理者
-        _manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+        _manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:configuration];
     }
     return _manager;
 }
@@ -168,60 +160,52 @@
  */
 - (NSURLSessionDataTask *)downloadTask {
     if (!_downloadTask) {
+        if(self.bean.status==YHFileDownloadSuspend||self.bean.status==YHFileDownloadFinshed||self.bean.status==YHFileDownloadFailure){
+            [self over];
+        }
         // 创建下载URL
-        NSURL *url = [NSURL URLWithString:self.getTaskBean.url];
-        
+        NSURL *url = [NSURL URLWithString:self.bean.url];
         // 2.创建request请求
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        
         // 设置HTTP请求头中的Range
-        NSString *range = [NSString stringWithFormat:@"bytes=%zd-", self.getTaskBean.currentLength?self.getTaskBean.currentLength:0];
+        NSString *range = [NSString stringWithFormat:@"bytes=%zd-", self.bean.currentLength?self.bean.currentLength:0];
+        [self.manager.requestSerializer setValue:range forHTTPHeaderField:@"Range"];
         [request setValue:range forHTTPHeaderField:@"Range"];
-        
         __weak typeof(self) weakSelf = self;
         _downloadTask = [self.manager dataTaskWithRequest:request uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
-            NSLog(@"%@",uploadProgress);
         } downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
-            NSLog(@"%@",downloadProgress);
+//            NSLog(@"%f",downloadProgress.fractionCompleted);
+            if(downloadProgress.fractionCompleted==1){
+                //任务执行完成后要实现相应的KVO
+                [weakSelf downloadOver:YES];
+            }else{
+//                NSLog(@"当前下载进度:%.2f%%",downloadProgress.fractionCompleted*100);
+//                NSLog(@"当前下载进度:%.2f%%",100.0 * weakSelf.bean.currentLength / weakSelf.bean.fileLength);
+            }
         } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-            // 清空长度
-            //            weakSelf.currentLength = 0;
-            //            weakSelf.fileLength = 0;
-            self.getTaskBean.status = YHFileDownloadFailure;
-            [self.getTaskBean bg_saveOrUpdate];
-            // 关闭fileHandle
-            [weakSelf.fileHandle closeFile];
-            weakSelf.fileHandle = nil;
+            [weakSelf downloadOver:NO];
         }];
         
         [self.manager setDataTaskDidReceiveResponseBlock:^NSURLSessionResponseDisposition(NSURLSession * _Nonnull session, NSURLSessionDataTask * _Nonnull dataTask, NSURLResponse * _Nonnull response) {
-            NSLog(@"NSURLSessionResponseDisposition");
-            
+//            NSLog(@"NSURLSessionResponseDisposition");NSHTTPURLResponse
+//            if(response.)
+            NSHTTPURLResponse *responseHttp = (NSHTTPURLResponse*)response;
             // 获得下载文件的总长度：请求下载的文件长度 + 当前已经下载的文件长度
-            weakSelf.getTaskBean.fileLength = response.expectedContentLength + weakSelf.getTaskBean.currentLength;
-            
-            // 沙盒文件路径
-            
-            NSLog(@"File downloaded to: %@",weakSelf.getTaskBean.absolutePath);
-            
-            // 创建一个空的文件到沙盒中
-            NSFileManager *manager = [NSFileManager defaultManager];
-            
-            if (![manager fileExistsAtPath:weakSelf.getTaskBean.absolutePath]) {
-                // 如果没有下载文件的话，就创建一个文件。如果有下载文件的话，则不用重新创建(不然会覆盖掉之前的文件)
-                [manager createFileAtPath:weakSelf.getTaskBean.absolutePath contents:nil attributes:nil];
+            if(responseHttp.statusCode!=206){
+                //返回都失败了
+                [weakSelf downloadOver:NO];
+                return NSURLSessionResponseCancel;
+//                NSLog(@"%ld",responseHttp.statusCode);
             }
-            
+            weakSelf.bean.fileLength = response.expectedContentLength + weakSelf.bean.currentLength;
+            [weakSelf.bean bg_saveOrUpdate];
             // 创建文件句柄
-            weakSelf.fileHandle = [NSFileHandle fileHandleForWritingAtPath:weakSelf.getTaskBean.absolutePath];
-            
+            weakSelf.fileHandle = [NSFileHandle fileHandleForWritingAtPath:weakSelf.bean.absolutePath];
             // 允许处理服务器的响应，才会继续接收服务器返回的数据
             return NSURLSessionResponseAllow;
         }];
         
         [self.manager setDataTaskDidReceiveDataBlock:^(NSURLSession * _Nonnull session, NSURLSessionDataTask * _Nonnull dataTask, NSData * _Nonnull data) {
-            NSLog(@"setDataTaskDidReceiveDataBlock");
-            
             // 指定数据的写入位置 -- 文件内容的最后面
             [weakSelf.fileHandle seekToEndOfFile];
             
@@ -229,36 +213,52 @@
             [weakSelf.fileHandle writeData:data];
             
             // 拼接文件总长度
-            weakSelf.getTaskBean.currentLength += data.length;
+            weakSelf.bean.currentLength += data.length;
+            weakSelf.bean.percentage = 100.0 * weakSelf.bean.currentLength / weakSelf.bean.fileLength;
+            [weakSelf.bean bg_saveOrUpdate];
             
-            // 获取主线程，不然无法正确显示进度。
-            NSOperationQueue* mainQueue = [NSOperationQueue mainQueue];
-            [mainQueue addOperationWithBlock:^{
-                // 下载进度
-                if (weakSelf.getTaskBean.fileLength != 0) {
-                    NSLog(@"当前下载进度:%.2f%%",100.0 * weakSelf.getTaskBean.currentLength / weakSelf.getTaskBean.fileLength);
-                }
-                [weakSelf.getTaskBean bg_saveOrUpdate];
-            }];
+            NSInteger time = [[NSDate date] timeIntervalSince1970];
+            NSInteger timeS = weakSelf.bean.updateTimeStamp;
+            NSInteger ca = time-timeS;
+            if(ca >= 1){
+                //计算下载速度
+                weakSelf.bean.speed = (weakSelf.bean.currentLength - weakSelf.bean.updateTimeFile)/ca;
+                //更新本条记录文件大小及时间
+                weakSelf.bean.updateTimeStamp = time;
+                weakSelf.bean.updateTimeFile = weakSelf.bean.currentLength;
+                [weakSelf.bean bg_saveOrUpdate];
+                NSLog(@"下载速度%f",weakSelf.bean.speed);
+            }
         }];
     }
     return _downloadTask;
 }
 
-/**
- * 获取已下载的文件大小
- */
-- (NSInteger)fileLengthForPath:(NSString *)path {
-    NSInteger fileLength = 0;
-    NSFileManager *fileManager = [[NSFileManager alloc] init]; // default is not thread safe
-    if ([fileManager fileExistsAtPath:path]) {
-        NSError *error = nil;
-        NSDictionary *fileDict = [fileManager attributesOfItemAtPath:path error:&error];
-        if (!error && fileDict) {
-            fileLength = [fileDict fileSize];
-        }
+
+-(void)downloadOver:(BOOL) isSuccess{
+    if(self.fileHandle){
+        // 关闭fileHandle
+        [self.fileHandle closeFile];
+        self.fileHandle = nil;
     }
-    return fileLength;
+    if(isSuccess){
+        self.bean.status = YHFileDownloadFinshed;
+    }else{
+        self.bean.fileLength = 0;
+        self.bean.status = YHFileDownloadFailure;
+    }
+    [self.bean bg_saveOrUpdate];
+    [self over];
 }
 
+-(void)over{
+    [self willChangeValueForKey:@"isFinished"];
+    [self willChangeValueForKey:@"isExecuting"];
+    _executing = NO;
+    _finished = YES;
+    //    _downloadTask = nil;
+    //    _manager = nil;
+    [self didChangeValueForKey:@"isExecuting"];
+    [self didChangeValueForKey:@"isFinished"];
+}
 @end
