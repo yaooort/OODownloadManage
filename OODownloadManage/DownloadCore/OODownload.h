@@ -9,13 +9,26 @@
 #import <Foundation/Foundation.h>
 #import "TaskBean.h"
 #import "DownloadEngine.h"
+
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol OODownloadDelegate <NSObject>
+@required
+//必须实现的方法
+- (void)updateAllTask:(NSMutableArray<TaskBean *> *) tasks;
+// 可选实现的方法
+@optional
+- (void)readBook;
+- (void)writeCode;
+@end
 
 @interface OODownload : NSObject
 
 singleH(OODownload)
 
 @property(nonatomic, strong) NSMutableDictionary<NSString *, DownloadEngine *>  * arrayTaskQueue;
+
+@property (nonatomic, weak, nullable) id <OODownloadDelegate> delegate;
 
 -(void)createTask:(NSString *)name :(NSArray *)tasks;
 

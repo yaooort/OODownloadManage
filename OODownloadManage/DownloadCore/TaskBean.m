@@ -19,6 +19,13 @@
     return @[@"model_id"];
 }
 
+/**
+ 设置不需要存储的属性, 在模型.m文件中实现该函数.
+ */
++(NSArray *)bg_ignoreKeys{
+    return @[@"block"];
+}
+
 
 -(NSInteger)updateTimeStamp{
     if(!_updateTimeStamp){
@@ -34,6 +41,9 @@
     return _speed;
 }
 
+-(void)addBlock:(TaskBlock) block{
+    
+}
 
 
 -(long)updateTimeFile{
@@ -43,12 +53,16 @@
     return _updateTimeFile;
 }
 
+
 -(long)fileLength{
     if(!_fileLength){
         _fileLength = 0;
     }
     return _fileLength;
 }
+
+
+
 -(long)currentLength{
     if(!_currentLength){
         _currentLength = [self fileLengthForPath:[self absolutePath]];
@@ -63,10 +77,13 @@
     return _status;
 }
 
+
 - (NSString *)absolutePath {
     NSString *fileName = [NSString stringWithFormat:@"%ld-%@",(long)self.model_id,self.file_Name];
     return [[self createFileDir] stringByAppendingPathComponent:fileName];
 }
+
+
 
 - (NSString*)createFileDir {
     //沙盒路径 kDocumentPath

@@ -16,6 +16,8 @@
 		B03F5B1A225DBE6E00B0E461 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B03F5B19225DBE6E00B0E461 /* main.m */; };
 		B03F5B23225DC04000B0E461 /* OODownload.m in Sources */ = {isa = PBXBuildFile; fileRef = B03F5B22225DC04000B0E461 /* OODownload.m */; };
 		B03F5B27225DD37B00B0E461 /* TaskBean.m in Sources */ = {isa = PBXBuildFile; fileRef = B03F5B26225DD37B00B0E461 /* TaskBean.m */; };
+		B061630B226D506700048017 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B0616309226D506700048017 /* TableViewCell.m */; };
+		B061630C226D506700048017 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B061630A226D506700048017 /* TableViewCell.xib */; };
 		B0E4B84222646E0500BA1503 /* DownloadEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E4B84122646E0500BA1503 /* DownloadEngine.m */; };
 		B0E4B84522656EEF00BA1503 /* OOOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E4B84422656EEF00BA1503 /* OOOperation.m */; };
 /* End PBXBuildFile section */
@@ -38,6 +40,9 @@
 		B03F5B24225DC1D900B0E461 /* Single.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Single.pch; sourceTree = "<group>"; };
 		B03F5B25225DD37B00B0E461 /* TaskBean.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskBean.h; sourceTree = "<group>"; };
 		B03F5B26225DD37B00B0E461 /* TaskBean.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskBean.m; sourceTree = "<group>"; };
+		B0616308226D506700048017 /* TableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
+		B0616309226D506700048017 /* TableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
+		B061630A226D506700048017 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		B0E4B84022646E0500BA1503 /* DownloadEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownloadEngine.h; sourceTree = "<group>"; };
 		B0E4B84122646E0500BA1503 /* DownloadEngine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DownloadEngine.m; sourceTree = "<group>"; };
 		B0E4B84322656EEF00BA1503 /* OOOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOOperation.h; sourceTree = "<group>"; };
@@ -96,6 +101,9 @@
 				B03F5B15225DBE6E00B0E461 /* LaunchScreen.storyboard */,
 				B03F5B18225DBE6E00B0E461 /* Info.plist */,
 				B03F5B19225DBE6E00B0E461 /* main.m */,
+				B0616308226D506700048017 /* TableViewCell.h */,
+				B0616309226D506700048017 /* TableViewCell.m */,
+				B061630A226D506700048017 /* TableViewCell.xib */,
 			);
 			path = OODownloadManage;
 			sourceTree = "<group>";
@@ -189,6 +197,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B03F5B17225DBE6E00B0E461 /* LaunchScreen.storyboard in Resources */,
+				B061630C226D506700048017 /* TableViewCell.xib in Resources */,
 				B03F5B14225DBE6E00B0E461 /* Assets.xcassets in Resources */,
 				B03F5B12225DBE6C00B0E461 /* Main.storyboard in Resources */,
 			);
@@ -231,6 +240,7 @@
 				B03F5B27225DD37B00B0E461 /* TaskBean.m in Sources */,
 				B0E4B84522656EEF00BA1503 /* OOOperation.m in Sources */,
 				B0E4B84222646E0500BA1503 /* DownloadEngine.m in Sources */,
+				B061630B226D506700048017 /* TableViewCell.m in Sources */,
 				B03F5B1A225DBE6E00B0E461 /* main.m in Sources */,
 				B03F5B0C225DBE6C00B0E461 /* AppDelegate.m in Sources */,
 			);

@@ -9,6 +9,9 @@
 #import "OODownload.h"
 #import "OOOperation.h"
 
+#import <Foundation/Foundation.h>
+
+
 @implementation OODownload
 singleM(OODownload)
 - (instancetype)init
@@ -67,24 +70,30 @@ singleM(OODownload)
 
 -(void)createTask:(NSString *)name :(NSArray *)tasks
 {
-//    [TaskBean bg_registerChangeForTableName:[self tabName:name] identify:@"change" block:^(bg_changeState result) {
-//        switch (result) {
-//            case bg_insert:
-//                NSLog(@"有数据插入");
-//                break;
-//            case bg_update:
-//                NSLog(@"有数据更新");
-//                break;
-//            case bg_delete:
-//                NSLog(@"有数据删删除");
-//                break;
-//            case bg_drop:
-//                NSLog(@"有表删除");
-//                break;
-//            default:
-//                break;
-//        }
+//    [TaskBean bg_registerChangeForTableName:name identify:@"change" block:^(bg_changeState result) {
+//        [self.delegate updateAllTask:[self getTaskAll :name]];
+////        switch (result) {
+////            case bg_insert:
+////                NSLog(@"有数据插入");
+////                break;
+////            case bg_update:
+////                NSLog(@"有数据更新");
+////                break;
+////            case bg_delete:
+////                NSLog(@"有数据删删除");
+////                break;
+////            case bg_drop:
+////                NSLog(@"有表删除");
+////                break;
+////            default:
+////                break;
+////        }
 //    }];
+    for (int i=0; i<tasks.count; i++) {
+        TaskBean *bean = tasks[i];
+        bean.status = YHFileDownloadWaiting;
+        bean.bg_tableName = name;
+    }
     [TaskBean bg_saveOrUpdateArray:tasks];
     
     // 创建下载队列
@@ -97,6 +106,12 @@ singleM(OODownload)
         [engine addOperation:oo];
     }
     [self.arrayTaskQueue setObject:engine forKey:name];
+}
+
+
+-(NSMutableArray<TaskBean *> *)getTaskAll:(NSString *)name
+{
+    return [TaskBean bg_findAll:name];
 }
 
 -(void)deleteTaskData:(NSString *)name

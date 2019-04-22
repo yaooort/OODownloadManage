@@ -86,7 +86,8 @@
         [self willChangeValueForKey:k_executing];
         _executing = YES;
         [self.downloadTask resume];
-        self.bean.status = YHFileDownloadBegin;
+        self.bean.status = YHFileDownloaddownload;
+        self.bean.block(self.bean.model_id);
         [self didChangeValueForKey:k_executing];
     }
     [self.bean bg_saveOrUpdate];
@@ -174,7 +175,9 @@
         __weak typeof(self) weakSelf = self;
         _downloadTask = [self.manager dataTaskWithRequest:request uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
         } downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
-//            NSLog(@"%f",downloadProgress.fractionCompleted);
+            weakSelf.bean.percentage = downloadProgress.fractionCompleted;
+            [weakSelf.bean bg_saveOrUpdate];
+            NSLog(@"下载进度%f",downloadProgress.fractionCompleted);
             if(downloadProgress.fractionCompleted==1){
                 //任务执行完成后要实现相应的KVO
                 [weakSelf downloadOver:YES];
@@ -214,8 +217,8 @@
             
             // 拼接文件总长度
             weakSelf.bean.currentLength += data.length;
-            weakSelf.bean.percentage = 100.0 * weakSelf.bean.currentLength / weakSelf.bean.fileLength;
-            [weakSelf.bean bg_saveOrUpdate];
+//            weakSelf.bean.percentage = 100.0 * weakSelf.bean.currentLength / weakSelf.bean.fileLength;
+//            [weakSelf.bean bg_saveOrUpdate];
             
             NSInteger time = [[NSDate date] timeIntervalSince1970];
             NSInteger timeS = weakSelf.bean.updateTimeStamp;
@@ -228,6 +231,7 @@
                 weakSelf.bean.updateTimeFile = weakSelf.bean.currentLength;
                 [weakSelf.bean bg_saveOrUpdate];
                 NSLog(@"下载速度%f",weakSelf.bean.speed);
+                weakSelf.bean.block(weakSelf.bean.model_id);
             }
         }];
     }
